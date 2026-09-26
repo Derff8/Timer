@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +10,12 @@ public class InputUI : MonoBehaviour
     [SerializeField] private Button _stopTimerButton;
     [SerializeField] private Button _resetTimerButton;
 
-    [SerializeField] private TimerExample _timer;
+    private Timer _timer;
+
+    public void Initialize(Timer timer)
+    {
+        _timer = timer;
+    }
 
     private void OnEnable()
     {

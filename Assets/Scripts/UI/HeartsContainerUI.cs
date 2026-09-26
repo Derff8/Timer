@@ -1,30 +1,18 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeartsContainerUI : MonoBehaviour
+public class HeartsContainerUI : BaseTimerUI
 {
     [SerializeField] private GameObject _heartImagePrefab;
 
-    private TimerExample _myTimer;
     private List<GameObject> _hearts = new List<GameObject>();
 
-    public void Initialize(TimerExample timer, float maxTime)
+    public override void Initialize(Timer timer, float maxTime)
     {
-        _myTimer = timer;
+        base.Initialize(timer, maxTime);
 
         SetCountHearts(maxTime);
-
         _myTimer.OnTimerChanged += UpdateCountHearts;
-        _myTimer.OnTimerEnd += DestrotContainer;
-    }
-
-    private void DestrotContainer()
-    {
-        _myTimer.OnTimerChanged -= UpdateCountHearts;
-        _myTimer.OnTimerEnd -= DestrotContainer;
-        GameObject.Destroy(gameObject);
     }
 
     private void SetCountHearts(float maxTime)
@@ -44,5 +32,12 @@ public class HeartsContainerUI : MonoBehaviour
             Destroy(_hearts[lastIndex]);
             _hearts.RemoveAt(lastIndex);
         }
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        _myTimer.OnTimerChanged -= UpdateCountHearts;
     }
 }
